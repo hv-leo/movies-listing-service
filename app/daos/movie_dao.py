@@ -34,6 +34,7 @@ class MovieDAO(metaclass=Singleton):
             movie_collection = self._get_collection(client)
             movies_to_insert = [movie.dict() for movie in movies]
             movie_collection.insert_many(movies_to_insert)
+        return movies
 
     def find_all(self):
         movies = []
@@ -45,22 +46,34 @@ class MovieDAO(metaclass=Singleton):
                 movies.append(document)
         return movies
 
-    def delete_all(self):
+    def find_one(self, movie_name: str) -> Movie:
+        with MongoClient('mongodb://127.0.0.1:27017') as client:
+            movie_collection = self._get_collection(client)
+            movie = movie_collection.find_one({"name": movie_name})
+            movie.pop('_id', None)
+            return movie
+
+    def delete_all(self) -> List[Movie]:
+        all_movies = self.find_all()
         with MongoClient('mongodb://127.0.0.1:27017') as client:
             movie_collection = self._get_collection(client)
             movie_collection.drop()
+        return all_movies
 
-    def delete_one(self, movie_name: str):
+    def delete_one(self, movie_name: str) -> Movie:
         with MongoClient('mongodb://127.0.0.1:27017') as client:
             movie_collection = self._get_collection(client)
             if movie_collection.count_documents({"name": movie_name}) == 0:
                 raise HTTPException(status_code=404, detail="Movie not found")
+            movie = self.find_one(movie_name)
             movie_collection.delete_one({"name": movie_name})
+            return movie
 
-    def update_one(self, movie_name: str, details: MovieDetailsUpdate):
+    def update_one(self, movie_name: str, details: MovieDetailsUpdate) -> Movie:
         with MongoClient('mongodb://127.0.0.1:27017') as client:
             movie_collection = self._get_collection(client)
             if movie_collection.count_documents({"name": movie_name}) == 0:
                 raise HTTPException(status_code=404, detail="Movie not found")
             movie_collection.find_one_and_update({'name': movie_name},
                                                  {'$set': details.dict()})
+        return self.find_one(movie_name)

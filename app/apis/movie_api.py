@@ -14,9 +14,8 @@ INFO_COLLECTION = "info"
 
 
 @router.post("/movies")
-async def insert_movie(movies: List[Movie]):
-    MovieService.save(movies)
-    return {"ok": True}
+async def insert_movie(movies: List[Movie]) -> List[Movie]:
+    return MovieService.save(movies)
 
 
 @router.get("/movies")
@@ -24,20 +23,21 @@ async def get_all_movies():
     return MovieService.get_all()
 
 
+@router.get("/movies/{movie_name}")
+async def get_movie(movie_name: str) -> Movie:
+    return MovieService.get_one(movie_name)
+
+
 @router.delete("/movies")
-async def delete_all_movies():
-    MovieService.delete_all()
-    return {"ok": True}
+async def delete_all_movies() -> List[Movie]:
+    return MovieService.delete_all()
 
 
 @router.delete("/movies/{movie_name}")
-async def delete_movie(movie_name: str):
-    MovieService.delete_one(movie_name)
-
-    return {"ok": True}
+async def delete_movie(movie_name: str) -> Movie:
+    return MovieService.delete_one(movie_name)
 
 
 @router.patch("/movies/{movie_name}")
-async def update_movie_details(movie_name: str, details: MovieDetailsUpdate):
-    MovieService.update_one(movie_name, details)
-    return {"ok": True}
+async def update_movie_details(movie_name: str, details: MovieDetailsUpdate) -> Movie:
+    return MovieService.update_one(movie_name, details)

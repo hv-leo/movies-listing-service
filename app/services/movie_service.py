@@ -5,26 +5,24 @@ from app.models.movie_model import Movie, MovieDetailsUpdate
 
 
 class MovieService:
-    @staticmethod
-    def save(movies: List[Movie]) -> List[Movie]:
-        return MovieDAO().insert_many(movies)
 
-    @staticmethod
-    def get_all():
-        return MovieDAO().find_all()
+    def __init__(self, db: MovieDAO):
+        self.db = db
 
-    @staticmethod
-    def get_one(movie_name: str) -> Movie:
-        return MovieDAO().find_one(movie_name)
+    def save(self, movies: List[Movie]) -> List[Movie]:
+        return self.db.insert_many(movies)
 
-    @staticmethod
-    def delete_all() -> List[Movie]:
-        return MovieDAO().delete_all()
+    def get_all(self):
+        return self.db.find_all()
 
-    @staticmethod
-    def delete_one(movie_name: str) -> Movie:
-        return MovieDAO().delete_one(movie_name)
+    def get_one(self, movie_name: str) -> Movie:
+        return self.db.find_one(movie_name)
 
-    @staticmethod
-    def update_one(movie_name: str, details: MovieDetailsUpdate) -> Movie:
-        return MovieDAO().update_one(movie_name, details)
+    def delete_all(self) -> List[Movie]:
+        return self.db.delete_all()
+
+    def delete_one(self, movie_name: str) -> Movie:
+        return self.db.delete_one(movie_name)
+
+    def update_one(self, movie_name: str, details: MovieDetailsUpdate) -> Movie:
+        return self.db.update_one(movie_name, details)

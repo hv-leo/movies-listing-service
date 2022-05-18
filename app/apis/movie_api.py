@@ -1,43 +1,53 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from typing import List
+from dependency_injector.wiring import inject, Provide
 
 from app.services.movie_service import MovieService
 from app.models.movie_model import Movie, MovieDetailsUpdate
+from app.containers import Container
 
 router = APIRouter(
     tags=["Movie"],
     responses={404: {"description": "Not found"}},
 )
 
-DB = "movie"
-INFO_COLLECTION = "info"
-
 
 @router.post("/movies")
-async def insert_movie(movies: List[Movie]) -> List[Movie]:
-    return MovieService.save(movies)
+@inject
+async def insert_movie(movies: List[Movie],
+                       movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
+    return movie_service.save(movies)
 
 
 @router.get("/movies")
-async def get_all_movies():
-    return MovieService.get_all()
+@inject
+async def get_all_movies(movie_service: MovieService = Depends(Provide[Container.movie_service])):
+    return movie_service.get_all()
 
 
 @router.get("/movies/{movie_name}")
-async def get_movie(movie_name: str) -> Movie:
-    return MovieService.get_one(movie_name)
+@inject
+async def get_movie(movie_name: str,
+                    movie_service: MovieService = Depends(Provide[Container.movie_service])) -> Movie:
+    return movie_service.get_one(movie_name)
 
 
 @router.delete("/movies")
-async def delete_all_movies() -> List[Movie]:
-    return MovieService.delete_all()
+@inject
+async def delete_all_movies(movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
+    return movie_service.delete_all()
 
 
 @router.delete("/movies/{movie_name}")
-async def delete_movie(movie_name: str) -> Movie:
-    return MovieService.delete_one(movie_name)
+@inject
+async def delete_movie(movie_name: str,
+                       movie_service: MovieService = Depends(Provide[Container.movie_service])) -> Movie:
+    return movie_service.delete_one(movie_name)
 
 
 @router.patch("/movies/{movie_name}")
-async def update_movie_details(movie_name: str, details: MovieDetailsUpdate) -> Movie:
-    return MovieService.update_one(movie_name, details)
+@inject
+async def update_movie_details(movie_name: str,
+                               details: MovieDetailsUpdate,
+                               movie_service: MovieService = Depends(Provide[Container.movie_service])) -> Movie:
+    return movie_service.update_one(movie_name, details)

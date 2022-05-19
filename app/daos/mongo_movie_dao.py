@@ -1,13 +1,14 @@
 from typing import List
 from pymongo import MongoClient
 from fastapi import HTTPException
-import urllib.request
 import certifi
+import urllib.request
 
 from app.models.movie_model import Movie, MovieDetailsUpdate
+from app.daos.persist_movie_info import PersistMovieInfo
 
 
-class MovieDAO:
+class MongoMovieDAO(PersistMovieInfo):
     def __init__(self, config):
         self._config = config
         self.connection_string = f'mongodb+srv://MoviesListingService:{urllib.parse.quote(self._config["password"])}@cluster0.9gowh.mongodb.net/' + \

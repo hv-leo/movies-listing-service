@@ -3,3 +3,4 @@ pymongo[srv]==4.1.1
 uvicorn==0.17.6
 certifi==2021.10.08
 dependency_injector==4.39.1
+python-decouple

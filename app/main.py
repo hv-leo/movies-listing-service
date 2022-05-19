@@ -1,14 +1,20 @@
 from fastapi import FastAPI
+from dependency_injector import providers
+from decouple import config
 
 from app.containers import Container
 from app.apis import movie_api
+from app.daos.mongo_movie_dao import MongoMovieDAO
+
 
 container = Container()
-container.config.override({
-    "db": "movie",
-    "collection": "info",
-    "password": r'*+Ea3`{p6:66K\~U'
-})
+if config('PERSISTANCE_CLIENT') == 'MongoDB':
+    container.persist_movie_info.override(providers.Factory(MongoMovieDAO,
+                                                            config={
+                                                                    "db": config('DB'),
+                                                                    "collection": config('COLLECTION'),
+                                                                    "password": config('MONGDDB_PWD')
+                                                                }))
 
 app = FastAPI()
 

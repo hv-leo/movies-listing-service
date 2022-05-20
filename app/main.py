@@ -5,6 +5,7 @@ from decouple import config
 from app.containers import Container
 from app.apis import movie_api
 from app.daos.mongo_movie_dao import MongoMovieDAO
+from app.daos.json_movie_dao import JsonMovieDAO
 
 
 container = Container()
@@ -15,6 +16,11 @@ if config('PERSISTANCE_CLIENT') == 'MongoDB':
                                                                     "collection": config('COLLECTION'),
                                                                     "password": config('MONGDDB_PWD')
                                                                 }))
+
+elif config('PERSISTANCE_CLIENT') == 'JsonFile':
+    container.persist_movie_info.override(providers.Factory(JsonMovieDAO,
+                                                            json_location=config('JSON_LOCATION')))
+
 
 app = FastAPI()
 

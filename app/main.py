@@ -11,7 +11,7 @@ from app.daos.json_movie_dao import JsonMovieDAO
 container = Container()
 if config('PERSISTANCE_CLIENT') == 'MongoDB':
     container.persist_movie_info.override(providers.Factory(MongoMovieDAO,
-                                                            config={
+                                                            configuration={
                                                                     "db": config('DB'),
                                                                     "collection": config('COLLECTION'),
                                                                     "password": config('MONGDDB_PWD')

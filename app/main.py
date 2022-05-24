@@ -1,25 +1,29 @@
 from fastapi import FastAPI
 from dependency_injector import providers
-from decouple import config
+import os
+from dotenv import load_dotenv
 
 from app.containers import Container
 from app.apis import movie_api
 from app.daos.mongo_movie_dao import MongoMovieDAO
 from app.daos.json_movie_dao import JsonMovieDAO
 
+# This will look for a file .env in the current directory
+# and will add all the variable definitions in it to the os.environ dictionary
+load_dotenv()
 
 container = Container()
-if config('PERSISTANCE_CLIENT') == 'MongoDB':
+if "MONGODB_PWD" in os.environ:
     container.persist_movie_info.override(providers.Factory(MongoMovieDAO,
                                                             configuration={
-                                                                    "db": config('DB'),
-                                                                    "collection": config('COLLECTION'),
-                                                                    "password": config('MONGDDB_PWD')
+                                                                    "db": os.getenv('DB'),
+                                                                    "collection": os.getenv('COLLECTION'),
+                                                                    "password": os.getenv('MONGODB_PWD')
                                                                 }))
 
-elif config('PERSISTANCE_CLIENT') == 'JsonFile':
+else:
     container.persist_movie_info.override(providers.Factory(JsonMovieDAO,
-                                                            json_location=config('JSON_LOCATION')))
+                                                            json_location=os.getenv('JSON_LOCATION')))
 
 
 app = FastAPI()

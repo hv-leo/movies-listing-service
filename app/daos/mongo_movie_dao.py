@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from fastapi import HTTPException
 import certifi
 import urllib.request
-from decouple import config
+import os
 
 from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.daos.persist_movie_info import PersistMovieInfo
@@ -12,7 +12,7 @@ from app.daos.persist_movie_info import PersistMovieInfo
 class MongoMovieDAO(PersistMovieInfo):
     def __init__(self, configuration):
         self._config = configuration
-        self.connection_string = config('CONNECTION_STRING').\
+        self.connection_string = os.getenv('CONNECTION_STRING').\
             replace('replace_pwd', urllib.parse.quote(self._config["password"])).\
             replace('replace_db', self._config["db"])
 

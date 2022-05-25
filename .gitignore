@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# file that stores custom attributes of its containing folder, such as folder view options, icon positions, and other visual information
+.DS_Store

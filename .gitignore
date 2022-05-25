@@ -129,5 +129,4 @@ dmypy.json
 .pyre/
 
 # file that stores custom attributes of its containing folder, such as folder view options, icon positions, and other visual information
-app/.DS_Store
-app/apis/.DS_Store
+.DS_Store

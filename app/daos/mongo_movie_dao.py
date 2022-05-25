@@ -19,7 +19,7 @@ class MongoMovieDAO(PersistMovieInfo):
     def _get_collection(self, client):
         return client[self._config["db"]][self._config["collection"]]
 
-    def insert_many(self, movies: List[Movie]):
+    def insert_many(self, movies: List[Movie]) -> List[Movie]:
         with MongoClient(self.connection_string, tlsCAFile=certifi.where()) as client:
             movie_collection = self._get_collection(client)
             movies_to_insert = []
@@ -35,7 +35,7 @@ class MongoMovieDAO(PersistMovieInfo):
             movie_collection.insert_many(movies_to_insert)
         return movies
 
-    def find_all(self):
+    def find_all(self) -> List[Movie]:
         movies = []
         with MongoClient(self.connection_string, tlsCAFile=certifi.where()) as client:
             movie_collection = self._get_collection(client)

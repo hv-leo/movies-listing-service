@@ -1,4 +1,5 @@
 import os.path
+import os
 from typing import List
 from fastapi import HTTPException
 import json
@@ -10,7 +11,8 @@ from app.daos.persist_movie_info import PersistMovieInfo
 class JsonMovieDAO(PersistMovieInfo):
     def __init__(self, json_location):
         self.json_location = json_location
-        self.movies_json = json_location + '\\movies.json' if json_location != "current_dir" else 'movies.json'
+        self.movies_json = json_location + '\\movies.json' if json_location != "current_dir" \
+            else os.getcwd() + '/movies.json'
         if not os.path.isfile(self.movies_json):
             self.create_empty_file()
 
@@ -18,7 +20,7 @@ class JsonMovieDAO(PersistMovieInfo):
         with open(self.movies_json, 'w') as file:
             json.dump([], file)
 
-    def insert_many(self, movies: List[Movie]):
+    def insert_many(self, movies: List[Movie]) -> List[Movie]:
         with open(self.movies_json) as file:
             all_movies = json.load(file)
         with open(self.movies_json, 'w') as file:

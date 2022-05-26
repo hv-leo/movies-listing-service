@@ -1,7 +1,8 @@
 # movies-listing-service
 
-This is an api intended to **Create, Read, Update and Delete** movies information.<br />
+This microservice consists of a server app intended to **Create, Read, Update and Delete** movies information. 
+It is coded in **Python**.<br />
 
-Movies are stored in either Json file or MongoDB database, depending on the existent
-variables defined in a local .env file
-Micro-service to store and fetch movies.
+### Project structure
+![alt text](https://github.com/hv-leo/movies-listing-service/blob/main/docs/listing_movie_service.png?raw=true)
+

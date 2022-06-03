@@ -1,0 +1,22 @@
+replicaCount: 1
+
+serverImage: movies-listing-service-img
+serverContainerPort: 80
+
+service:
+  name: listing-movies
+  port: 8001
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  host: localhost
+  path: "/"
+  port: 8001
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80

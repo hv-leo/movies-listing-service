@@ -1,0 +1,29 @@
+description = "movies listing service"
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+	group = 'com.peres'
+	version = '0.0.1'
+}
+
+def ImgName = "movies-listing-service-img"
+
+task buildImage(type:Exec) {
+	workingDir "."
+	commandLine "docker", "image", "build", "-t", "${ImgName}:${version}", "."
+}
+
+task buildApp {
+    dependsOn(":buildImage")
+	dependsOn(":helm:helmChartPackage")
+}
+
+task deployApp(type:Exec) {
+	dependsOn("buildApp")
+	def chartLocation = project(":helm").buildDir
+
+	workingDir "."
+	commandLine "helm", "install", "${project.name}", "${chartLocation}/${project.name}-${version}.tgz"
+}

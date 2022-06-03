@@ -9,6 +9,7 @@ from app.containers import Container
 router = APIRouter(
     tags=["Movie"],
     responses={404: {"description": "Not found"}},
+    prefix="/server"
 )
 
 

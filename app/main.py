@@ -26,10 +26,14 @@ else:
                                                             json_location=os.getenv('JSON_LOCATION')))
 
 
-app = FastAPI()
+app = FastAPI(
+    docs_url='/server/docs',
+    redoc_url='/server/redoc',
+    openapi_url='/server/openapi.json'
+)
 
 
-@app.get("/")
+@app.get("/server")
 async def root():
     return {"message": "Welcome to the movies recomendation system!"}
 

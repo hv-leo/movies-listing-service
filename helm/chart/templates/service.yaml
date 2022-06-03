@@ -7,7 +7,7 @@ metadata:
 spec:
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 3000
+      targetPort: container-port
       protocol: TCP
       name: http
   selector:

@@ -22,5 +22,5 @@ spec:
           image: "{{ .Values.serverImage }}:{{ .Chart.AppVersion }}"
           ports:
             - name: container-port
-              containerPort: 80
+              containerPort: {{ .Values.serverContainerPort }}
               protocol: TCP

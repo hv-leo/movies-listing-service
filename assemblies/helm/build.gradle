@@ -1,0 +1,7 @@
+description = "movies-listing-service helm chart"
+
+task helmChartPackage(type:Exec) {
+    workingDir "."
+    commandLine "helm", "package", "chart", "-d", "${buildDir}",
+                "--app-version", "${version}", "--version", "${version}"
+}

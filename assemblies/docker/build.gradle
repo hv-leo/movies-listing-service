@@ -1,4 +1,13 @@
-description = "movies-listing-service helm chart"
+description = "Replace ROOT_PATH variable with given value in .Values"
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task replaceDockerfileRootPath(type: Copy) {
+    from './Dockerfile'
+     filter(ReplaceTokens, tokens: [ROOT_PATH: rootProject.ext.ROOT_PATH])
+     into './build'
+}
+
 
 task helmChartPackage(type:Exec) {
     workingDir "."

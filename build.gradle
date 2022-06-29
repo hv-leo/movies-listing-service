@@ -27,14 +27,6 @@ ext {
   autoescaling_targetCPUUtilizationPercentage = '80'
 
 }
-
-def ImgName = "movies-listing-service-img"
-
-task buildImage(type:Exec) {
-	workingDir "."
-	commandLine "docker", "image", "build", "-t", "${ImgName}:${version}", "."
-}
-
 task buildApp {
     dependsOn(":buildImage")
 	dependsOn(":helm:helmChartPackage")

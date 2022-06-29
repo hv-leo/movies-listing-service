@@ -28,8 +28,8 @@ ext {
 
 }
 task buildApp {
-    dependsOn(":buildImage")
-	dependsOn(":helm:helmChartPackage")
+    dependsOn(":assemblies:docker:buildImage")
+	dependsOn(":assemblies:helm:helmChartPackage")
 }
 
 task deployApp(type:Exec) {

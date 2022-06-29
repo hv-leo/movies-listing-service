@@ -8,9 +8,7 @@ task replaceDockerfileRootPath(type: Copy) {
      into './build'
 }
 
-
-task helmChartPackage(type:Exec) {
-    workingDir "."
-    commandLine "helm", "package", "chart", "-d", "${buildDir}",
-                "--app-version", "${version}", "--version", "${version}"
+task buildImage(type:Exec) {
+    dependsOn(":assemblies:docker:replaceDockerfileRootPath")
+	commandLine "docker", "image", "build", "-f", "build/Dockerfile",  "-t", "${rootProject.ext.imgName}:${rootProject.ext.version}",  "../../../"
 }

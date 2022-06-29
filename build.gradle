@@ -8,6 +8,26 @@ allprojects {
 	version = '0.0.1'
 }
 
+ext {
+  ROOT_PATH = '/server/'
+  imgName = 'movies-listing-service-img'
+  version = '0.0.1'
+  replicaCount = '1'
+  serverImage = 'movies-listing-service-img'
+  serverContainerPort = '80'
+  service_name = 'listing-movies'
+  service_port =  '8001'
+  service_targetPort =  '3000'
+  ingress_enabled =  'true'
+  ingress_host =  'localhost'
+  ingress_port = '8001'
+  autoescaling_enabled =  'false'
+  autoescaling_minReplicas = '1'
+  autoescaling_maxReplicas = '100'
+  autoescaling_targetCPUUtilizationPercentage = '80'
+
+}
+
 def ImgName = "movies-listing-service-img"
 
 task buildImage(type:Exec) {
@@ -22,7 +42,7 @@ task buildApp {
 
 task deployApp(type:Exec) {
 	dependsOn("buildApp")
-	def chartLocation = project(":helm").buildDir
+	def chartLocation = project(":assemblies:helm").buildDir
 
 	workingDir "."
 	commandLine "helm", "install", "${project.name}", "${chartLocation}/${project.name}-${version}.tgz"

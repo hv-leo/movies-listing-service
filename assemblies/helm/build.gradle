@@ -1,4 +1,24 @@
 description = "movies-listing-service helm chart"
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task replaceChartValues(type: Copy) {
+    from './chart'
+     filter(ReplaceTokens, tokens: [replicaCount: rootProject.ext.replicaCount,
+                                    serverImage: rootProject.ext.serverImage,
+                                    serverContainerPort: rootProject.ext.serverContainerPort,
+                                    service_name: rootProject.ext.service_name,
+                                    service_port: rootProject.ext.service_port,
+                                    service_targetPort: rootProject.ext.service_targetPort,
+                                    ingress_enabled: rootProject.ext.ingress_enabled,
+                                    ingress_host: rootProject.ext.ingress_host,
+                                    ROOT_PATH: rootProject.ext.ROOT_PATH,
+                                    ingress_port: rootProject.ext.ingress_port,
+                                    autoescaling_enabled: rootProject.ext.autoescaling_enabled,
+                                    autoescaling_minReplicas: rootProject.ext.autoescaling_minReplicas,
+                                    autoescaling_maxReplicas: rootProject.ext.autoescaling_maxReplicas,
+                                    autoescaling_targetCPUUtilizationPercentage: rootProject.ext.autoescaling_targetCPUUtilizationPercentage])
+     into './build/chart'
+}
 
 task helmChartPackage(type:Exec) {
     workingDir "."

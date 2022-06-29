@@ -21,7 +21,7 @@ task replaceChartValues(type: Copy) {
 }
 
 task helmChartPackage(type:Exec) {
-    workingDir "."
+    workingDir "./build"
     commandLine "helm", "package", "chart", "-d", "${buildDir}",
                 "--app-version", "${version}", "--version", "${version}"
 }

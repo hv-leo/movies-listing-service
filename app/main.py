@@ -26,11 +26,11 @@ else:
                                                             json_location=os.getenv('JSON_LOCATION')))
 
 
-app = FastAPI(docs_url='/server/docs',
-              openapi_url='/server/openapi.json')
+app = FastAPI(docs_url=os.getenv('ROOT_PATH') + '/docs',
+              openapi_url=os.getenv('ROOT_PATH') + '/openapi.json')
 
 
-@app.get("/server")
+@app.get(os.getenv('ROOT_PATH'))
 async def root():
     return {"message": "Welcome to the movies recomendation system!"}
 

@@ -1,15 +1,19 @@
 from fastapi import APIRouter, Depends
 from typing import List
 from dependency_injector.wiring import inject, Provide
+import os
+from dotenv import load_dotenv
 
 from app.services.movie_service import MovieService
 from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.containers import Container
 
+load_dotenv()
+
 router = APIRouter(
     tags=["Movie"],
     responses={404: {"description": "Not found"}},
-    prefix='/server/movies'
+    prefix=os.getenv('ROOT_PATH') + '/movies'
 )
 
 

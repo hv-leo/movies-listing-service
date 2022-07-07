@@ -9,7 +9,7 @@ allprojects {
 }
 
 ext {
-  ROOT_PATH = '/server/'
+  ROOT_PATH = '/server'
   imgName = 'movies-listing-service-img'
   version = '0.0.1'
   replicaCount = '1'

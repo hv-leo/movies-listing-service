@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from dependency_injector import providers
 import os
 from dotenv import load_dotenv
@@ -26,11 +26,8 @@ else:
                                                             json_location=os.getenv('JSON_LOCATION')))
 
 
-app = FastAPI(
-    docs_url='/server/docs',
-    redoc_url='/server/redoc',
-    openapi_url='/server/openapi.json'
-)
+app = FastAPI(docs_url='/server/docs',
+              openapi_url='/server/openapi.json')
 
 
 @app.get("/server")

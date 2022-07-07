@@ -9,44 +9,44 @@ from app.containers import Container
 router = APIRouter(
     tags=["Movie"],
     responses={404: {"description": "Not found"}},
-    prefix="/server"
+    prefix='/server/movies'
 )
 
 
-@router.post("/movies")
+@router.post("/")
 @inject
 async def insert_movie(movies: List[Movie],
                        movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
     return movie_service.save(movies)
 
 
-@router.get("/movies")
+@router.get("/")
 @inject
 async def get_all_movies(movie_service: MovieService = Depends(Provide[Container.movie_service])):
     return movie_service.get_all()
 
 
-@router.get("/movies/{movie_name}")
+@router.get("/{movie_name}")
 @inject
 async def get_movie(movie_name: str,
                     movie_service: MovieService = Depends(Provide[Container.movie_service])) -> Movie:
     return movie_service.get_one(movie_name)
 
 
-@router.delete("/movies")
+@router.delete("/")
 @inject
 async def delete_all_movies(movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
     return movie_service.delete_all()
 
 
-@router.delete("/movies/{movie_name}")
+@router.delete("/{movie_name}")
 @inject
 async def delete_movie(movie_name: str,
                        movie_service: MovieService = Depends(Provide[Container.movie_service])) -> Movie:
     return movie_service.delete_one(movie_name)
 
 
-@router.patch("/movies/{movie_name}")
+@router.patch("/{movie_name}")
 @inject
 async def update_movie_details(movie_name: str,
                                details: MovieDetailsUpdate,

@@ -1,14 +1,11 @@
-description = "Replace ROOT_PATH variable with given value in .Values"
+description = "Create Dockerfile inside build dir and build image"
 
-import org.apache.tools.ant.filters.ReplaceTokens
-
-task replaceDockerfileRootPath(type: Copy) {
+task createDockerfileInsideBuildDir(type: Copy) {
     from './Dockerfile'
-     filter(ReplaceTokens, tokens: [ROOT_PATH: rootProject.ext.ROOT_PATH])
      into './build'
 }
 
 task buildImage(type:Exec) {
-    dependsOn(":assemblies:docker:replaceDockerfileRootPath")
+    dependsOn("createDockerfileInsideBuildDir")
 	commandLine "docker", "image", "build", "-f", "build/Dockerfile",  "-t", "${rootProject.ext.imgName}:${rootProject.ext.version}",  "../../../"
 }

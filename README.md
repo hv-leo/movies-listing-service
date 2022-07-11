@@ -50,6 +50,14 @@ If we look to the code of the **deployApp** task we can see the task depends on 
 This task is merely a gathering of two other dependencies, which are tasks **buildImage** and **helmChartPackage**. <br />
 <br />
 
+So, for now, we have this:
+````mermaid
+graph TD
+    deployApp-->|depends on|buildApp
+    buildApp-->|depends on|buildImage
+    buildApp-->|depends on|helmChartPackage
+````
+
 ###### buildImage and helmChartPackage tasks
 The **buildImage** task is the one that creates the docker image for the application and the **helmChartPackage** task
 is the one that allows for the packaging of the app. For this purpose the **helm package (...)** command is run.<br />
@@ -59,9 +67,15 @@ Both of the above two tasks also depend on other tasks.
 <br />
 <br />
 The **buildImage** tasks depends on the **createDockerfileInsideBuildDir** task which for now the only thing it does its 
-replicating the content of the Dockerfile into another Dockerfile inside assemblies/docker/build.
+replicating the content of the Dockerfile into another Dockerfile inside assemblies/docker/build:
 <br />
 <br />
+````mermaid
+graph TD
+    buildImage-->|depends on|createDockerfileInsideBuildDir
+
+````
+
 In the future we might want to include variables on the Dockerfile that will be replaced with values at the moment of the  
 replication of the file and so this task will come in-handy because we will be able to adapt it to replace the variables' values in the 
 Dockerfile inside assemblies/docker/build (just like what we are already doing with the **replaceChartValues** task 
@@ -70,11 +84,18 @@ Dockerfile inside assemblies/docker/build (just like what we are already doing w
 <br />
 The **helmChartPackage** task depends on the **replaceChartValues** task which besides replicating chart files into the assemblies/helm/build/chart
 directory it also replaces variables such as **replicaCount** defined in the root build.gradle file and used in assemblies/helm/chart/values.yaml
-by its value.
+by its value:
+````mermaid
+graph TD
+    helmChartPackage-->|depends on|replaceChartValues
+
+````
+
+
 <br />
 <br />
 
-The following diagram illustrates the flow of the deployment of the app in terms of the gradle tasks and its dependencies:
+The following diagram illustrates the complete flow of the deployment of the app in terms of the gradle tasks and its dependencies:
 
 ````mermaid
 graph TD

@@ -40,6 +40,8 @@ It uses a packaging format called **charts**. A **chart** is a collection of fil
 <br />
 
 #### App deployment flow
+
+###### deployApp task
 To deploy the app, one should be in the root of the project and execute the **deployApp** task by running command **./gradlew deployApp**. <br />
 <br />
 The definition of this task is located inside the **build.gradle** file located in the root of the project. <br />
@@ -48,6 +50,7 @@ If we look to the code of the **deployApp** task we can see the task depends on 
 This task is merely a gathering of two other dependencies, which are tasks **buildImage** and **helmChartPackage**. <br />
 <br />
 
+###### buildImage and helmChartPackage tasks
 The **buildImage** task is the one that creates the docker image for the application and the **helmChartPackage** task
 is the one that allows for the packaging of the app. For this purpose the **helm package (...)** command is run.<br />
 <br />
@@ -68,8 +71,20 @@ Dockerfile inside assemblies/docker/build (just like what we are already doing w
 The **helmChartPackage** task depends on the **replaceChartValues** task which besides replicating chart files into the assemblies/helm/build/chart
 directory it also replaces variables such as **replicaCount** defined in the root build.gradle file and used in assemblies/helm/chart/values.yaml
 by its value.
+<br />
+<br />
 
+The following diagram illustrates the flow of the deployment of the app in terms of the gradle tasks and its dependencies:
 
+````mermaid
+graph TD
+    deployApp-->|depends on|buildApp
+    buildApp-->|depends on|buildImage
+    buildApp-->|depends on|helmChartPackage
+    buildImage-->|depends on|createDockerfileInsideBuildDir
+    helmChartPackage-->|depends on|replaceChartValues
+
+````
 
 
 

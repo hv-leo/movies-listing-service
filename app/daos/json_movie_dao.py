@@ -3,6 +3,7 @@ import os
 from typing import List
 from fastapi import HTTPException
 import json
+import logging
 
 from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.daos.persist_movie_info import PersistMovieInfo
@@ -25,7 +26,12 @@ class JsonMovieDAO(PersistMovieInfo):
             all_movies = json.load(file)
         with open(self.movies_json, 'w') as file:
             all_movies += [movie.dict() for movie in movies]
-            json.dump(all_movies, file)
+            logging.info('Storing movies in json file')
+            try:
+                json.dump(all_movies, file)
+                logging.info("Movies stored successfully")
+            except Exception as e:
+                raise Exception(f'The following error occurred when trying to store movies in the json file: {e}')
             return movies
 
     def find_all(self) -> List[Movie]:
@@ -53,10 +59,15 @@ class JsonMovieDAO(PersistMovieInfo):
             all_movies = json.load(file)
         movie = list(filter(lambda m: m["name"] == movie_name, all_movies))
         if movie:
-            all_movies.remove(movie[0])
-            with open(self.movies_json, 'w') as file:
-                json.dump(all_movies, file)
-                return movie[0]
+            logging.info(f'Deleting movie {movie[0]["name"]}')
+            try:
+                all_movies.remove(movie[0])
+                with open(self.movies_json, 'w') as file:
+                    json.dump(all_movies, file)
+                    logging.info(f'Movie {movie[0]["name"]} deleted successfully')
+                    return movie[0]
+            except Exception as e:
+                raise Exception(f'Error while deleting movie {movie[0]["name"]}: {e}')
         raise HTTPException(status_code=404, detail="Movie not found")
 
     def update_one(self, movie_name: str, details: MovieDetailsUpdate) -> Movie:
@@ -64,10 +75,16 @@ class JsonMovieDAO(PersistMovieInfo):
             all_movies = json.load(file)
         movie = list(filter(lambda m: m["name"] == movie_name, all_movies))
         if movie:
-            all_movies.remove(movie[0])
-            movie[0].update(details.dict())
-            all_movies += movie
-            with open(self.movies_json, 'w') as file:
-                json.dump(all_movies, file)
-                return movie[0]
+            logging.info(f'Updating info regarding movie {movie[0]["name"]}')
+            try:
+                all_movies.remove(movie[0])
+                movie[0].update(details.dict())
+                all_movies += movie
+                with open(self.movies_json, 'w') as file:
+                    json.dump(all_movies, file)
+                    logging.info(f'Movie {movie[0]["name"]} was successfully updated with new information.')
+                    return movie[0]
+            except Exception as e:
+                raise Exception(f'Error while updating movie {movie[0]["name"]} with new info: {e}')
+
         raise HTTPException(status_code=404, detail="Movie not found")

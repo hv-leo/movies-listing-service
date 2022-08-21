@@ -49,7 +49,7 @@ coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
-.pytest_cache/
+server/.pytest_cache/
 
 # Translations
 *.mo
@@ -132,9 +132,9 @@ dmypy.json
 .DS_Store
 
 
-.gradle/
+server/.gradle/
 .idea/
 classes.png
-data/
+server/data/
 docs/listing_movie_service_uml.drawio
 packages.png

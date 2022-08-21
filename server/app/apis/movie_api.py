@@ -4,16 +4,16 @@ from dependency_injector.wiring import inject, Provide
 import os
 from dotenv import load_dotenv
 
-from app.services.movie_service import MovieService
-from app.models.movie_model import Movie, MovieDetailsUpdate
-from app.containers import Container
+from server.app.services.movie_service import MovieService
+from server.app.models.movie_model import Movie, MovieDetailsUpdate
+from server.app.containers import Container
 
 load_dotenv()
 
 router = APIRouter(
     tags=["Movie"],
     responses={404: {"description": "Not found"}},
-    prefix=os.getenv('ROOT_PATH') + '/movies'
+    prefix=os.getenv('SERVER_ROOT_PATH') + '/movies'
 )
 
 

@@ -4,15 +4,15 @@ serverImage: @serverImage@
 serverContainerPort: @serverContainerPort@
 
 service:
-  name: @service_name@
-  port: @service_port@
-  targetPort: @service_targetPort@
+  name: @serverServiceName@
+  port: @serverServicePort@
+  targetPort: @serverServiceTargetPort@
 
 ingress:
   enabled: @ingress_enabled@
   host: @ingress_host@
-  path: "@ROOT_PATH@"
-  port: @ingress_port@
+  path: "@SERVER_ROOT_PATH@"
+  port: @serverIngressPort@
 
 autoscaling:
   enabled: @autoescaling_enabled@

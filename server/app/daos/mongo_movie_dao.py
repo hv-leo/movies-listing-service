@@ -6,8 +6,8 @@ import urllib.request
 import os
 import logging
 
-from app.models.movie_model import Movie, MovieDetailsUpdate
-from app.daos.persist_movie_info import PersistMovieInfo
+from server.app.models.movie_model import Movie, MovieDetailsUpdate
+from server.app.daos.persist_movie_info import PersistMovieInfo
 
 
 class MongoMovieDAO(PersistMovieInfo):

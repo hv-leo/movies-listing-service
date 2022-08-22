@@ -1,7 +1,7 @@
 from dependency_injector import providers, containers
 
-from server.app.daos.persist_movie_info import PersistMovieInfo
-from server.app.services.movie_service import MovieService
+from app.daos.persist_movie_info import PersistMovieInfo
+from app.services.movie_service import MovieService
 
 
 class Container(containers.DeclarativeContainer):

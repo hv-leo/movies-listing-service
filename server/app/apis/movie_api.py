@@ -4,9 +4,9 @@ from dependency_injector.wiring import inject, Provide
 import os
 from dotenv import load_dotenv
 
-from server.app.services.movie_service import MovieService
-from server.app.models.movie_model import Movie, MovieDetailsUpdate
-from server.app.containers import Container
+from app.services.movie_service import MovieService
+from app.models.movie_model import Movie, MovieDetailsUpdate
+from app.containers import Container
 
 load_dotenv()
 

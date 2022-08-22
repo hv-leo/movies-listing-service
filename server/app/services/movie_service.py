@@ -1,7 +1,7 @@
 from typing import List
 
-from server.app.daos.persist_movie_info import PersistMovieInfo
-from server.app.models.movie_model import Movie, MovieDetailsUpdate
+from app.daos.persist_movie_info import PersistMovieInfo
+from app.models.movie_model import Movie, MovieDetailsUpdate
 
 
 class MovieService:

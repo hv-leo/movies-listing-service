@@ -5,8 +5,8 @@ from fastapi import HTTPException
 import json
 import logging
 
-from server.app.models.movie_model import Movie, MovieDetailsUpdate
-from server.app.daos.persist_movie_info import PersistMovieInfo
+from app.models.movie_model import Movie, MovieDetailsUpdate
+from app.daos.persist_movie_info import PersistMovieInfo
 
 
 class JsonMovieDAO(PersistMovieInfo):

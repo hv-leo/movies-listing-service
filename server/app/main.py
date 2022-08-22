@@ -3,10 +3,10 @@ from dependency_injector import providers
 import os
 from dotenv import load_dotenv
 
-from server.app.containers import Container
-from server.app.apis import movie_api
-from server.app.daos.mongo_movie_dao import MongoMovieDAO
-from server.app.daos.json_movie_dao import JsonMovieDAO
+from app.containers import Container
+from app.apis import movie_api
+from app.daos.mongo_movie_dao import MongoMovieDAO
+from app.daos.json_movie_dao import JsonMovieDAO
 
 # This will look for a file .env in the current directory
 # and will add all the variable definitions in it to the os.environ dictionary

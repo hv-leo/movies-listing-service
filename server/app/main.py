@@ -18,7 +18,8 @@ if "MONGODB_PWD" in os.environ:
                                                             configuration={
                                                                     "db": os.getenv('DB'),
                                                                     "collection": os.getenv('COLLECTION'),
-                                                                    "password": os.getenv('MONGODB_PWD')
+                                                                    "password": os.getenv('MONGODB_PWD'),
+                                                                    "username": os.getenv('MONGODB_USERNAME')
                                                                 }))
 
 else:

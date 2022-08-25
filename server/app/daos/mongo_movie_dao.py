@@ -15,7 +15,7 @@ class MongoMovieDAO(PersistMovieInfo):
         self._config = configuration
         self.connection_string = os.getenv('CONNECTION_STRING').\
             replace('replace_pwd', urllib.parse.quote(self._config["password"])).\
-            replace('replace_db', self._config["db"])
+            replace('replace_username', self._config["username"])
 
     def _get_collection(self, client):
         return client[self._config["db"]][self._config["collection"]]
@@ -54,14 +54,16 @@ class MongoMovieDAO(PersistMovieInfo):
                 movies.append(document)
         return movies
 
-    def find_one(self, movie_name: str) -> Movie:
+    def find_many(self, genre: str) -> List[Movie]:
         with MongoClient(self.connection_string, tlsCAFile=certifi.where()) as client:
             movie_collection = self._get_collection(client)
-            movie = movie_collection.find_one({"name": movie_name})
-            if movie is None:
-                raise HTTPException(status_code=404, detail="Movie not found")
-            movie.pop('_id', None)
-            return movie
+            movies = movie_collection.find({"genres": {"$regex" : f".*{genre}.*"}})
+            movies_to_return = []
+            if movies is None:
+                raise HTTPException(status_code=404, detail="Movies not found for given genre")
+            for movie in movies:
+                movies_to_return.append(movie.pop('_id', None))
+            return movies_to_return
 
     def delete_all(self) -> List[Movie]:
         all_movies = self.find_all()

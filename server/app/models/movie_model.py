@@ -4,12 +4,13 @@ from typing import Optional
 
 class Movie(BaseModel):
     name: str
+    genres = str
     director: str
     writers: str
     stars: str
-    user_reviews: int
-    critic_reviews: int
     rating: int
+    votes: int
+    cover_image: str
 
 
 class MovieDetailsUpdate(BaseModel):

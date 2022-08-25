@@ -30,11 +30,11 @@ async def get_all_movies(movie_service: MovieService = Depends(Provide[Container
     return movie_service.get_all()
 
 
-@router.get("/{movie_name}")
+@router.get("/{genre}")
 @inject
-async def get_movie(movie_name: str,
-                    movie_service: MovieService = Depends(Provide[Container.movie_service])) -> Movie:
-    return movie_service.get_one(movie_name)
+async def get_movies_from_genre(genre: str,
+                                movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
+    return movie_service.get_many(genre)
 
 
 @router.delete("/")

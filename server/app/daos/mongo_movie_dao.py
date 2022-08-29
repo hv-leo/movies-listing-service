@@ -61,7 +61,7 @@ class MongoMovieDAO(PersistMovieInfo):
             movies_to_return = []
             for movie in movies:
                 movies_to_return.append(movie)
-            if movies_to_return==[]:
+            if not movies_to_return:
                 raise HTTPException(status_code=404, detail=f"Movies not found for genre {genre}")
             return movies_to_return
 

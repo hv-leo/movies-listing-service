@@ -15,8 +15,8 @@ class MovieService:
     def get_all(self):
         return self.movie_dao.find_all()
 
-    def get_many(self, genre: str) -> List[Movie]:
-        return self.movie_dao.find_many(genre)
+    def get_movies_from_given_genre(self, genre: str) -> List[Movie]:
+        return self.movie_dao.find_movies_from_given_genre(genre)
 
     def delete_all(self) -> List[Movie]:
         return self.movie_dao.delete_all()

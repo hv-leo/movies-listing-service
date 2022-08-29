@@ -54,7 +54,7 @@ class MongoMovieDAO(PersistMovieInfo):
                 movies.append(document)
         return movies
 
-    def find_many(self, genre: str) -> List[Movie]:
+    def find_movies_from_given_genre(self, genre: str) -> List[Movie]:
         with MongoClient(self.connection_string, tlsCAFile=certifi.where()) as client:
             movie_collection = self._get_collection(client)
             movies = movie_collection.find({"genres": {"$regex" : f".*{genre}.*"}}, {'_id': 0})

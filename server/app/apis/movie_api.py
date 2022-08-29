@@ -34,7 +34,7 @@ async def get_all_movies(movie_service: MovieService = Depends(Provide[Container
 @inject
 async def get_movies_from_genre(genre: str,
                                 movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
-    return movie_service.get_many(genre)
+    return movie_service.get_movies_from_given_genre(genre)
 
 
 @router.delete("/")

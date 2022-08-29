@@ -4,7 +4,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 task replaceChartValues(type: Copy) {
     from './chart'
      filter(ReplaceTokens, tokens: [replicaCount: rootProject.ext.replicaCount,
-                                    serverImage: rootProject.ext.serverImage,
+                                    serverImgName: rootProject.ext.serverImgName,
                                     serverContainerPort: rootProject.ext.serverContainerPort,
                                     serverServiceName: rootProject.ext.serverServiceName,
                                     serverServicePort: rootProject.ext.serverServicePort,

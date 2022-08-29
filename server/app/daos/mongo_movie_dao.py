@@ -57,12 +57,12 @@ class MongoMovieDAO(PersistMovieInfo):
     def find_many(self, genre: str) -> List[Movie]:
         with MongoClient(self.connection_string, tlsCAFile=certifi.where()) as client:
             movie_collection = self._get_collection(client)
-            movies = movie_collection.find({"genres": {"$regex" : f".*{genre}.*"}})
+            movies = movie_collection.find({"genres": {"$regex" : f".*{genre}.*"}}, {'_id': 0})
             movies_to_return = []
-            if movies is None:
-                raise HTTPException(status_code=404, detail="Movies not found for given genre")
             for movie in movies:
-                movies_to_return.append(movie.pop('_id', None))
+                movies_to_return.append(movie)
+            if movies_to_return==[]:
+                raise HTTPException(status_code=404, detail=f"Movies not found for genre {genre}")
             return movies_to_return
 
     def delete_all(self) -> List[Movie]:

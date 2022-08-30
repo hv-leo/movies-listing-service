@@ -1,0 +1,5 @@
+description = "Create Dockerfile inside build dir and build image"
+
+task buildImage(type:Exec) {
+	commandLine "docker", "image", "build", "-f", "Dockerfile",  "-t", "${rootProject.ext.serverImgName}:${rootProject.ext.version}",  "./"
+}

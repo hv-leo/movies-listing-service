@@ -1,2 +1,2 @@
 rootProject.name = "movies-listing-service"
-include ":server:docker", ":assemblies:helm"
+include ":server:docker",":client", ":assemblies:helm"

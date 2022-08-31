@@ -3,20 +3,23 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 task replaceChartValues(type: Copy) {
     from './chart'
-     filter(ReplaceTokens, tokens: [replicaCount: rootProject.ext.replicaCount,
-                                    serverImgName: rootProject.ext.serverImgName,
-                                    serverContainerPort: rootProject.ext.serverContainerPort,
-                                    serverServiceName: rootProject.ext.serverServiceName,
-                                    serverServicePort: rootProject.ext.serverServicePort,
-                                    serverServiceTargetPort: rootProject.ext.serverServiceTargetPort,
+     filter(ReplaceTokens, tokens: [replica_count: rootProject.ext.replica_count,
+                                    server_image_name: rootProject.ext.server_image_name,
+                                    client_image_name: rootProject.ext.client_image_name,
+                                    server_container_port: rootProject.ext.server_container_port,
+                                    client_container_port: rootProject.ext.client_container_port,
+                                    server_service_name: rootProject.ext.server_service_name,
+                                    client_service_name: rootProject.ext.client_service_name,
+                                    server_service_port: rootProject.ext.server_service_port,
+                                    client_service_port: rootProject.ext.client_service_port,
                                     ingress_enabled: rootProject.ext.ingress_enabled,
                                     ingress_host: rootProject.ext.ingress_host,
-                                    SERVER_ROOT_PATH: rootProject.ext.SERVER_ROOT_PATH,
-                                    serverIngressPort: rootProject.ext.serverIngressPort,
-                                    autoescaling_enabled: rootProject.ext.autoescaling_enabled,
-                                    autoescaling_minReplicas: rootProject.ext.autoescaling_minReplicas,
-                                    autoescaling_maxReplicas: rootProject.ext.autoescaling_maxReplicas,
-                                    autoescaling_targetCPUUtilizationPercentage: rootProject.ext.autoescaling_targetCPUUtilizationPercentage])
+                                    server_root_path: rootProject.ext.server_root_path,
+                                    client_root_path: rootProject.ext.client_root_path,
+                                    autoscaling_enabled: rootProject.ext.autoscaling_enabled,
+                                    autoscaling_min_replicas: rootProject.ext.autoscaling_min_replicas,
+                                    autoscaling_max_replicas: rootProject.ext.autoscaling_max_replicas,
+                                    autoscaling_target_cpu_utilization_percentage: rootProject.ext.autoscaling_target_cpu_utilization_percentage])
      into './build/chart'
 }
 

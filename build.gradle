@@ -9,26 +9,29 @@ allprojects {
 }
 
 ext {
-  SERVER_ROOT_PATH = '/server'
-  serverImgName = 'movies-listing-service-img'
+  server_root_path = '/server'
+  client_root_path = '/client'
+  server_image_name = 'movies-listing-service-server-img'
+  client_image_name = 'movies-listing-service-client-img'
   version = '0.0.1'
-  replicaCount = '1'
-  serverImage = 'movies-listing-service-img'
-  serverContainerPort = '80'
-  serverServiceName = 'listing-movies'
-  serverServicePort =  '8002'
-  serverServiceTargetPort =  '80'
+  replica_count = '1'
+  server_container_port = '80'
+  client_container_port = '3000'
+  server_service_name = 'server'
+  client_service_name = 'client'
+  server_service_port =  '8002'
+  client_service_port =  '8001'
   ingress_enabled =  'true'
   ingress_host =  'localhost'
-  serverIngressPort = '8002'
-  autoescaling_enabled =  'false'
-  autoescaling_minReplicas = '1'
-  autoescaling_maxReplicas = '100'
-  autoescaling_targetCPUUtilizationPercentage = '80'
+  autoscaling_enabled =  'false'
+  autoscaling_min_replicas = '1'
+  autoscaling_max_replicas = '100'
+  autoscaling_target_cpu_utilization_percentage = '80'
 
 }
 task buildApp {
     dependsOn(":server:docker:buildImage")
+    dependsOn(":client:buildImage")
 	dependsOn(":assemblies:helm:helmChartPackage")
 }
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 
 import CardColumns from 'react-bootstrap/CardColumns';
 import Movies from '../../../components/Movies/Movies';
@@ -20,20 +19,20 @@ const MoviesFeed = (props) => {
             setError( false );
             setMovies( JSON.parse( localStorage.getItem(genre) ) );
         }  else {
-            axios.get( `https://localhost:8080/server/movies/${genre}` )
+            axios.get( `http://localhost/server/movies/${genre}` )
             .then( response => {
-                setError( false );
-                const movies = response.data.articles;
-                setMovies( movies );
-                localStorage.setItem( genre, JSON.stringify( movies ) );
+               setError( false );
+               const movies = response.data;
+               setMovies( movies );
+               localStorage.setItem( genre, JSON.stringify( movies ) );
             } )
             .catch( error => {
                 setError( true );
-                console.log(error);
+                //console.log(error);
                 setErrorMessage( error.message );
             } );
         }
-    }, [ props.match.params.genre ] );
+    }, [ props.match.params.genre] );
 
     useEffect( () => {
         let moviesFeed = <p style={{ textAlign: 'center' }}>{errorMessage}</p>;

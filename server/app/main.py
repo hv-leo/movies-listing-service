@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from dependency_injector import providers
 import os
 from dotenv import load_dotenv
@@ -35,7 +36,13 @@ app = FastAPI(docs_url=os.getenv('SERVER_ROOT_PATH') + '/docs',
 async def root():
     return {"message": "Welcome to the movies recomendation system!"}
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="http://localhost:3000/server/movies",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.container = container
 app.include_router(movie_api.router)
 

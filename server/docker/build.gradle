@@ -7,5 +7,5 @@ task createDockerfileInsideBuildDir(type: Copy) {
 
 task buildImage(type:Exec) {
     dependsOn("createDockerfileInsideBuildDir")
-	commandLine "docker", "image", "build", "-f", "build/Dockerfile",  "-t", "${rootProject.ext.serverImgName}:${rootProject.ext.version}",  "../../../"
+	commandLine "docker", "image", "build", "-f", "build/Dockerfile",  "-t", "${rootProject.ext.server_image_name}:${rootProject.ext.version}",  "../../../"
 }

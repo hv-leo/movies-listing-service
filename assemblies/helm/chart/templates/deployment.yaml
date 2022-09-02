@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: client
+        {{ if not .Values.skaffold }}
+          image: "{{ .Values.clientImage }}:{{ .Chart.AppVersion }}"
+        {{ else }}
+          image: "{{ .Values.clientImage }}"
+        {{ end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.clientContainerPort }}
+              protocol: TCP
+        - name: server
+        {{ if not .Values.skaffold }}
+          image: "{{ .Values.serverImage }}:{{ .Chart.AppVersion }}"
+        {{ else }}
+          image: "{{ .Values.serverImage }}"
+        {{ end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.serverContainerPort }}
+              protocol: TCP

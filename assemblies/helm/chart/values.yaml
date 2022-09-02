@@ -1,0 +1,32 @@
+# Default values for k8s-demo's helm chart.
+
+# enable/disable continuous deployment.
+skaffold: false
+
+clientImage: @client_image_name@
+clientContainerPort: @client_container_port@
+serverImage: @server_image_name@
+serverContainerPort: @server_container_port@
+
+service:
+  - name: @client_service_name@
+    port: @client_service_port@
+    targetPort: @client_container_port@
+  - name: @server_service_name@
+    port: @server_service_port@
+    targetPort: @server_container_port@
+
+ingress:
+  host: @ingress_host@
+  paths:
+    - path: "@client_root_path@"
+      port: @client_service_port@
+    - path: "@server_root_path@"
+      port: @server_service_port@
+
+autoscaling:
+  enabled: @autoscaling_enabled@
+  minReplicas: @autoscaling_min_replicas@
+  maxReplicas: @autoscaling_max_replicas@
+  targetCPUUtilizationPercentage: @autoscaling_target_cpu_utilization_percentage@
+  # targetMemoryUtilizationPercentage: 80

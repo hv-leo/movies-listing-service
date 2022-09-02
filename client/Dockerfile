@@ -2,8 +2,8 @@ FROM node:18.8.0
 WORKDIR /app
 
 # Install client dependencies.
-COPY package.* ./
-RUN npm install
+COPY package* ./
+RUN npm ci
 
 # Copy frontend source code to the image filesystem.
 COPY . .

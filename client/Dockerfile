@@ -4,6 +4,8 @@ WORKDIR /app
 # Install client dependencies.
 COPY package* ./
 RUN npm ci
+RUN npm install @auth0/auth0-react
+RUN npm install reactstrap bootstrap
 
 # Copy frontend source code to the image filesystem.
 COPY . .

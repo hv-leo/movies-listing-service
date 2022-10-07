@@ -1,4 +1,5 @@
 {
     "domain": "dev-5-eekjjc.us.auth0.com",
-    "clientId": "1Hd2I6yE9EnAO00cMvN50jThujS4j5aV"
+    "clientId": "1Hd2I6yE9EnAO00cMvN50jThujS4j5aV",
+    "audience": "https://fastapi-get-movies-by-genre.com"
 }

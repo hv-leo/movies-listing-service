@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, status, Request
 from typing import List
 from dependency_injector.wiring import inject, Provide
 import os
 from dotenv import load_dotenv
 
 from app.services.movie_service import MovieService
+from app.security.verify_token import VerifyToken
 from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.containers import Container
 
@@ -33,7 +34,16 @@ async def get_all_movies(movie_service: MovieService = Depends(Provide[Container
 @router.get("/{genre}")
 @inject
 async def get_movies_from_genre(genre: str,
+                                response: Response,
+                                request: Request,
                                 movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
+    token = request.headers.get('authorization').replace('Bearer ', '')
+    token_results = VerifyToken(token).verify()
+    print(token_results)
+    if token_results.get("status"):
+        print('Here!')
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return token_results
     return movie_service.get_movies_from_given_genre(genre)
 
 

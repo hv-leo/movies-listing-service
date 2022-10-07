@@ -39,9 +39,7 @@ async def get_movies_from_genre(genre: str,
                                 movie_service: MovieService = Depends(Provide[Container.movie_service])) -> List[Movie]:
     token = request.headers.get('authorization').replace('Bearer ', '')
     token_results = VerifyToken(token).verify()
-    print(token_results)
     if token_results.get("status"):
-        print('Here!')
         response.status_code = status.HTTP_400_BAD_REQUEST
         return token_results
     return movie_service.get_movies_from_given_genre(genre)

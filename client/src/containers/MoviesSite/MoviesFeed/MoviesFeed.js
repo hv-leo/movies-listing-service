@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
 import CardColumns from 'react-bootstrap/CardColumns';
 import Movies from '../../../components/Movies/Movies';
 
 
 export const MoviesFeed = (props) => {
-    const {getAccessTokenSilently,  isAuthenticated } = useAuth0();
     const [movies, setMovies] = useState( [] );
     const [moviesFeed, setMoviesFeed] = useState();
     const [error, setError] = useState( true );
@@ -19,16 +17,10 @@ export const MoviesFeed = (props) => {
                 setError(false);
                 setMovies(JSON.parse(localStorage.getItem(genre)));
             }
-            else if (!isAuthenticated){
-                setErrorMessage("Please log in first.")
-            }
             else {
-                const token = await getAccessTokenSilently();
-                await fetch(`http://localhost/server/movies/${genre}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }).then(
+                await fetch(
+                        `http://localhost/server/movies/${genre}`
+                ).then(
                         response => {
                             console.log(response.status)
                             return response.json()
@@ -44,7 +36,7 @@ export const MoviesFeed = (props) => {
                     });
             }
         }) ();
-    }, [ props.match.params.genre, getAccessTokenSilently,  isAuthenticated, errorMessage] );
+    }, [ props.match.params.genre, errorMessage] );
 
     useEffect( () => {
         ( async () => {

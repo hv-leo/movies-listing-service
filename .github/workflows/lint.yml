@@ -1,0 +1,15 @@
+name: Checks
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Checks
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - run: pip install --upgrade pip
+    - run: pip install mypy==v0.902
+    - run: mypy --strict $(git ls-files '*.py')

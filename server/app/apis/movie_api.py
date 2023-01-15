@@ -3,6 +3,7 @@ from typing import List
 from dependency_injector.wiring import inject, Provide
 import os
 from dotenv import load_dotenv
+import sys
 
 from app.services.movie_service import MovieService
 from app.models.movie_model import Movie, MovieDetailsUpdate

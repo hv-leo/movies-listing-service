@@ -9,7 +9,7 @@ from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.containers import Container
 
 load_dotenv()
-# testing
+
 router = APIRouter(
     tags=["Movie"],
     responses={404: {"description": "Not found"}},

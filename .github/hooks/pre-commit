@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# check for mypy
+if command -v mypy > /dev/null; then
+    mypy .
+    if [ $? -ne 0 ]; then
+        echo "Mypy type checking failed, please fix the errors before committing."
+        exit 1
+    fi
+else
+    echo "Mypy not found, please install it to use the pre-commit hook."
+    exit 1
+fi
+
+# check for autoflake
+if command -v autoflake > /dev/null; then
+    autoflake --remove-unused-variables --remove-unused-imports -i -r .
+    if [ $? -ne 0 ]; then
+        echo "Autoflake failed, please fix the errors before committing."
+        exit 1
+    fi
+else
+    echo "Autoflake not found, please install it to use the pre-commit hook."
+    exit 1
+fi

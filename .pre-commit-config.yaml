@@ -1,0 +1,23 @@
+repos:
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        language: system
+        entry: mypy
+        types: [python]
+        args: ["."]
+        stages: [commit]
+        on_fail:
+          - echo "Mypy not found, please install it to use the pre-commit hook."
+          - exit 1
+      - id: autoflake
+        name: autoflake
+        language: system
+        entry: autoflake
+        types: [python]
+        args: ["--remove-unused-variables", "--remove-unused-imports", "-i", "-r", "."]
+        stages: [commit]
+        on_fail:
+          - echo "Autoflake not found, please install it to use the pre-commit hook."
+          - exit 1

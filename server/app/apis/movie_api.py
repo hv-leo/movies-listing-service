@@ -9,6 +9,7 @@ from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.containers import Container
 import future
 # useless comment
+# another useless comment
 
 load_dotenv()
 

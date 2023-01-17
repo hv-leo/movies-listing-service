@@ -8,7 +8,6 @@ from app.services.movie_service import MovieService
 from app.models.movie_model import Movie, MovieDetailsUpdate
 from app.containers import Container
 import unittest
-import sys
 
 load_dotenv()
 

@@ -7,11 +7,11 @@ repos:
         entry: mypy
         types: [python]
         args: ["."]
-        stages: [pre-commit]
+        stages: [commit-msg]
       - id: autoflake
         name: autoflake
         language: system
         entry: autoflake
         types: [python]
         args: ["--remove-unused-variables", "--remove-all-unused-imports", "-i", "-r", "."]
-        stages: [pre-commit]
+        stages: [commit-msg]
